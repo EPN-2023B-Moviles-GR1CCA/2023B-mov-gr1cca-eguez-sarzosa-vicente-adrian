@@ -10,6 +10,15 @@ fun main(){
     var mutable: String = "Vicente";
     mutable = "Adrian";
 
+
+
+
+
+
+
+
+
+
     //  val > var
     // Duck Typing
     var ejemploVariable = " Adrian Eguez "
@@ -24,4 +33,20 @@ fun main(){
     val mayorEdad: Boolean = true
     // Clases Java
     val fechaNacimiento: Date = Date()
+
+
+    // SWITCH
+    val estadoCivilWhen = "C"
+    when (estadoCivilWhen){
+        ("C") -> {
+            println("Casado")
+        }
+        "S" -> {
+            println("Soltero")
+        }
+        else -> {
+            println("No sabemos")
+        }
+    }
+    val coqueteo = if (estadoCivilWhen == "S") "Si" else "No"
 }
