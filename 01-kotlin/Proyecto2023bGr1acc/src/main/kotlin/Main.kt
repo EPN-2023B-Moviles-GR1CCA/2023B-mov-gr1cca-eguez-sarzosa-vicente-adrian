@@ -49,4 +49,41 @@ fun main(){
         }
     }
     val coqueteo = if (estadoCivilWhen == "S") "Si" else "No"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+// void -> Unit
+fun imprimirNombre(nombre: String): Unit{
+    // "Nombre: " + variable + " bienvenido";
+    println("Nombre : ${nombre}")
+}
+fun calcularSueldo(
+    sueldo: Double, // Requerido
+    tasa: Double = 12.00, // Opcional (defecto)
+    bonoEspecial: Double? = null, // Opcion null -> nullable
+): Double{
+    // Int -> Int? (nullable)
+    // String -> String? (nullable)
+    // Date -> Date? (nullable)
+    if(bonoEspecial == null){
+        return sueldo * (100/tasa)
+    }else{
+        bonoEspecial.dec()
+        return sueldo * (100/tasa ) + bonoEspecial
+    }
 }
