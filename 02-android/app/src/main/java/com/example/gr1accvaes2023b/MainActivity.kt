@@ -62,7 +62,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val botonCicloVida = findViewById<Button>(R.id.btn_ciclo_vida)
+
+        setContentView(R.layout.activity_main)
+        val botonCicloVida = findViewById<Button>(R.id.btn_ciclo_vida2)
+
         botonCicloVida
             .setOnClickListener {
                 irActividad(ACicloVida::class.java)
