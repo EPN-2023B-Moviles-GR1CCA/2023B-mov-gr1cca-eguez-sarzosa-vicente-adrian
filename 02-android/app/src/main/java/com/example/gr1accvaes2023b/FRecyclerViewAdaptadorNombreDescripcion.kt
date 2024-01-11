@@ -1,5 +1,6 @@
 package com.example.gr1accvaes2023b
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -35,21 +36,28 @@ class FRecyclerViewAdaptadorNombreDescripcion(
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): FRecyclerViewAdaptadorNombreDescripcion.MyViewHolder {
-        TODO("Not yet implemented")
+    // Setear el layout que vamos a utilizar
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val itemView = LayoutInflater
+            .from(parent.context)
+            .inflate(
+                R.layout.recycler_view_vista,
+                parent,
+                false
+            )
+        return MyViewHolder(itemView)
     }
-
-    override fun onBindViewHolder(
-        holder: FRecyclerViewAdaptadorNombreDescripcion.MyViewHolder,
-        position: Int
-    ) {
-        TODO("Not yet implemented")
+    // Setear los datos para la iteracion
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val entrenadorActual = this.lista[position]
+        holder.nombreTextView.text = entrenadorActual.nombre
+        holder.descripcionTextView.text = entrenadorActual.descripcion
+        holder.likesTextView.text = "0"
+        holder.accionButton.text = "ID:${entrenadorActual.id} " +
+                "Nombre:${entrenadorActual.nombre}"
     }
-
+    // tamano del arreglo
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return this.lista.size
     }
 }
