@@ -2,6 +2,7 @@ package com.example.gr1accvaes2023b
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class FRecyclerView : AppCompatActivity() {
@@ -25,4 +26,13 @@ class FRecyclerView : AppCompatActivity() {
             .LinearLayoutManager(this)
         adaptador.notifyDataSetChanged()
     }
+
+    fun aumentarTotalLikes(){
+        totalLikes = totalLikes + 1
+        val totalLikesTextView = findViewById<TextView>(
+            R.id.tv_total_likes
+        )
+        totalLikesTextView.text = totalLikes.toString()
+    }
+
 }
