@@ -61,6 +61,9 @@ class HFirebaseUIAuth : AppCompatActivity() {
                 .build()
             // RESPUESTA DEL INTENT DE LOGIN
             respuestaLoginAuthUi.launch(logearseIntent)
+            // https://console.firebase.google.com/u/0/project/PROYECTO/authentication/settings
+            // Authentication/Settings/UserActions/Email enumeration protection ( )
+            // Unchecked!!
         }
         val btnLogout = findViewById<Button>(R.id.btn_logout_firebase)
         btnLogout.setOnClickListener { seDeslogeo() }
