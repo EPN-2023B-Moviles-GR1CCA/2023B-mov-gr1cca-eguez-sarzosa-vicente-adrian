@@ -41,7 +41,145 @@ class IFirestore : AppCompatActivity() {
         // Order By
         val botonOrderBy = findViewById<Button>(R.id.btn_fs_order_by)
         botonOrderBy.setOnClickListener { consultarConOrderBy(adaptador) }
+
+
+        // Obtener documento
+        val botonObtenerDocumento = findViewById<Button>(
+            R.id.btn_fs_odoc)
+        botonObtenerDocumento.setOnClickListener {
+            consultarDocumento(adaptador)
+        }
+
+
+        // Consultar indice compuesto
+        val botonIndiceCompuesto = findViewById<Button>(
+            R.id.btn_fs_ind_comp)
+        botonIndiceCompuesto.setOnClickListener {
+            consultarIndiceCompuesto(adaptador) }
+
+        // Crear datos
+        val botonCrear = findViewById<Button>(R.id.btn_fs_crear)
+        botonCrear.setOnClickListener { crearEjemplo() }
     }// FINALIZA OnCreate!
+
+    fun crearEjemplo(){
+        val db = Firebase.firestore
+        val referenciaEjemploEstudiante = db
+            .collection("ejemplo")
+        // .document("id_hijo")
+        // .collection("estudiante")
+        val datosEstudiante = hashMapOf(
+            "nombre" to "Adrian",
+            "graduado" to false,
+            "promedio" to 14.00,
+            "direccion" to hashMapOf(
+                "direccion" to "Mitad del mundo",
+                "numeroCalle" to 1234
+            ),
+            "materias" to listOf("web", "moviles")
+        )
+        // identificador quemado (crear/actualizar)
+        referenciaEjemploEstudiante
+            .document("12345678")
+            .set(datosEstudiante)
+            .addOnSuccessListener {  }
+            .addOnFailureListener {  }
+        // identificador quemado pero autogenerado con Date().time
+        val identificador = Date().time
+        referenciaEjemploEstudiante // (crear/actualizar)
+            .document(identificador.toString())
+            .set(datosEstudiante)
+            .addOnSuccessListener {  }
+            .addOnFailureListener {  }
+        // Sin IDENTIFICADOR (crear)
+        referenciaEjemploEstudiante
+            .add(datosEstudiante)
+            .addOnCompleteListener {  }
+            .addOnFailureListener {  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+    fun consultarIndiceCompuesto( adaptador: ArrayAdapter<ICities> ){
+        val db = Firebase.firestore
+        val citiesRefUnico = db.collection("cities")
+        limpiarArreglo()
+        adaptador.notifyDataSetChanged()
+        citiesRefUnico
+            .whereEqualTo("capital", false)
+            .whereLessThanOrEqualTo("population", 4000000)
+            .orderBy("population", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener {
+                for (ciudad in it){
+                    anadirAArregloCiudad(ciudad)
+                }
+                adaptador.notifyDataSetChanged()
+            }
+            .addOnFailureListener {  }
+
+    }
+
+    fun consultarDocumento(
+        adaptador: ArrayAdapter<ICities>
+    ){
+        val db = Firebase.firestore
+        val citiesRefUnico = db.collection("cities")
+        limpiarArreglo()
+        adaptador.notifyDataSetChanged()
+        // Coleccion "ciudad"
+        //     -> Coleccion "barrio"
+        //            -> Coleccion "direccion"
+        // "Quito" => "La_Floresta" => "E90-001"
+        // db.collection("ciudad").document("Quito")
+        //   .collection("barrio").document("La Floresta")
+        //   .collection("direccion").document("E90-001")
+        // .collection("nombre_coleccion_hijo").document("id_hijo")
+        // .collection("nombre_coleccion_nieto").document("id_nieto")
+        citiesRefUnico
+            .document("BJ")
+            .get() // obtener 1 DOCUMENTO
+            .addOnSuccessListener {
+                // it=> ES UN OBJETO!
+                arreglo
+                    .add(
+                        ICities(
+                            it.data?.get("name") as String?,
+                            it.data?.get("state") as String?,
+                            it.data?.get("country") as String?,
+                            it.data?.get("capital") as Boolean?,
+                            it.data?.get("population") as Long?,
+                            it.data?.get("regions") as
+                                    ArrayList<String>?,
+                        )
+                    )
+                adaptador.notifyDataSetChanged()
+            }
+            .addOnFailureListener {
+                // salio Mal
+            }
+    }
     fun limpiarArreglo() {
         arreglo.clear()
     }
